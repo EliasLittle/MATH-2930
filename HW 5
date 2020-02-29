@@ -1,0 +1,197 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+
+def Eulers(f,y0,t0,h,times,title):
+    tvals = []
+    yvals = []
+    y = y0
+    t = float(t0)
+
+    while t <= times[-1]:
+        y = y + h*f(y,t)
+        yvals.append(round(y,4))
+        t = round(float(t+ h),4)
+        tvals.append(t)
+        #print(str(t)+" : "+str(y))
+        if t in times:
+            print(str(t)+" : "+str(y))
+
+
+    #Plotting
+    fig = plt.figure()
+    plt.plot(np.array(tvals),np.array(yvals))
+    fig.suptitle(title)
+    plt.xlabel('t', fontsize=18)
+    plt.ylabel('y', fontsize=16)
+    #plt.show()
+    fig.savefig('{}.jpg'.format(title))
+
+def Improved_Eulers(f,y0,t0,h,times,title):
+    tvals = []
+    yvals = []
+    y = y0
+    t = float(t0)
+
+    while t <= times[-1]:
+        k1 = f(y,t)
+        k2 = f(y+h*k1, t+h)
+        y = y + h/2 * (k1+k2)
+        yvals.append(round(y,4))
+        t = round(float(t+ h),4)
+        tvals.append(t)
+        #print(str(t)+" : "+str(y))
+        if t in times:
+            print(str(t)+" : "+str(y))
+
+
+    #Plotting
+    fig = plt.figure()
+    plt.plot(np.array(tvals),np.array(yvals))
+    fig.suptitle(title)
+    plt.xlabel('t', fontsize=18)
+    plt.ylabel('y', fontsize=16)
+    #plt.show()
+    fig.savefig('{}.jpg'.format(title))
+
+def Backwards_Eulers(f,y0,t0,h,times,title):
+    tvals = []
+    yvals = []
+    y = y0
+    t = float(t0)
+
+    while t <= times[-1]:
+        k1 = f(y,t)
+        y = y + h*f(y+h*k1, t+h)
+        yvals.append(round(y,4))
+        t = round(float(t+ h),4)
+        tvals.append(t)
+        #print(str(t)+" : "+str(y))
+        if t in times:
+            print(str(t)+" : "+str(y))
+
+
+    #Plotting
+    fig = plt.figure()
+    plt.plot(np.array(tvals),np.array(yvals))
+    fig.suptitle(title)
+    plt.xlabel('t', fontsize=18)
+    plt.ylabel('y', fontsize=16)
+    #plt.show()
+    fig.savefig('{}.jpg'.format(title))
+
+def RungeKutta(f,y0,t0,h,times,title):
+    tvals = []
+    yvals = []
+    y = y0
+    t = float(t0)
+
+    while t <= times[-1]:
+        k1 = f(y,t)
+        k2 = f(y+h/2*k1, t+h/2)
+        k3 = f(y+h/2*k2, t+h/2)
+        k4 = f(y+h*k3, t+h)
+        y = y + h/6 * (k1+2*k2+2*k3+k4)
+        yvals.append(round(y,4))
+        t = round(float(t+ h),4)
+        tvals.append(t)
+        #print(str(t)+" : "+str(y))
+        if t in times:
+            print(str(t)+" : "+str(y))
+
+
+    #Plotting
+    fig = plt.figure()
+    plt.plot(np.array(tvals),np.array(yvals))
+    fig.suptitle(title)
+    plt.xlabel('t', fontsize=18)
+    plt.ylabel('y', fontsize=16)
+    #plt.show()
+    fig.savefig('{}.jpg'.format(title))
+
+"""
+#Problem 1
+print("PROBLEM 1")
+
+times = [float(x/2) for x in range(1,7)]
+for h in [0.1,0.05,0.025,0.01]:
+    print("\n")
+    print("h = {}\n".format(h))
+    Eulers((lambda y, t: 5-3*(y**0.5)), 2, 0, float(h), times, "1) h = {}".format(h))
+"""
+'''
+#Problem 2
+print("PROBLEM 2")
+
+times = [float(x/10) for x in range(1,5)]
+for h in [0.05, 0.025]:
+    print("\n")
+    print("h = {}\n".format(h))
+    Eulers((lambda y, t: 5*t-3*(y**0.5)), 2, 0, float(h), times, "2) Euler h = {}".format(h))
+
+for h in [0.05, 0.025]:
+    print("\n")
+    print("h = {}\n".format(h))
+    Backwards_Eulers((lambda y, t: 5*t-3*(y**0.5)), 2, 0, float(h), times, "2) Backwards Euler h = {}".format(h))
+'''
+'''
+#Problem 3
+print("PROBLEM 3")
+times = [float(x/10) for x in range(2,8,2)]
+for h in [0.2]:
+    print("\n")
+    print("h = {}\n".format(h))
+    Eulers((lambda y, t: math.cos(5*math.pi*t)), 1, 0, float(h), times, "3) Euler h = {}".format(h))
+
+times = [float(x/10) for x in range(0,6,2)]
+for h in [0.1]:
+    print("\n")
+    print("h = {}\n".format(h))
+    Eulers((lambda y, t: math.cos(5*math.pi*t)), 1, 0, float(h), times, "3) Euler h = {}".format(h))
+'''
+
+'''
+#Problem 4
+print("PROBLEM 4")
+times = [float(x/10) for x in range(1,5)]
+for h in [0.05,0.025,0.0125]:
+    print("\n")
+    print("h = {}\n".format(h))
+
+    print("Improved")
+    Improved_Eulers((lambda y, t: (y**2 + 2*t*y)/(3+t**2)), 0.5, 0, float(h), times, "4) Improved_Eulers h = {}".format(h))
+
+    print("Regular")
+    Eulers((lambda y, t: (y**2 + 2*t*y)/(3+t**2)), 0.5, 0, float(h), times, "4) Eulers h = {}".format(h))
+
+    print("Backwards")
+    Backwards_Eulers((lambda y, t: (y**2 + 2*t*y)/(3+t**2)), 0.5, 0, float(h), times, "4) Backwards_Eulers h = {}".format(h))
+'''
+'''
+#Problem 5
+print("PROBLEM 5")
+times = [float(x/10) for x in range(5,25,5)]
+for h in [0.025,0.0125]:
+    print("\n")
+    print("h = {}\n".format(h))
+
+    print("Improved")
+    Improved_Eulers((lambda y, t: (t+y)**0.5), 3, 0, float(h), times, "5) Improved_Eulers h = {}".format(h))
+'''
+
+#Problem 6
+print("PROBLEM 6")
+times = [float(x/10) for x in range(5,25,5)]
+for h in [0.1,0.05]:
+    print("\n")
+    print("h = {}\n".format(h))
+
+    print("Runge-Kutta")
+    RungeKutta((lambda y, t: 5*t-3*y**0.5), 2, 0, float(h), times, "6) Runge-Kutta h = {}".format(h))
+
+    print("Improved")
+    Improved_Eulers((lambda y, t: 5*t-3*y**0.5), 2, 0, float(h), times, "6) Improved_Eulers h = {}".format(h))
+
+    print("Euler")
+    Eulers((lambda y, t: 5*t-3*y**0.5), 2, 0, float(h), times, "6) Eulers h = {}".format(h))
